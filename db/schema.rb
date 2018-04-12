@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180410044211) do
+ActiveRecord::Schema.define(version: 20180411050042) do
 
   create_table "applications", force: :cascade do |t|
     t.string "company_name"
@@ -18,6 +18,10 @@ ActiveRecord::Schema.define(version: 20180410044211) do
     t.datetime "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.integer "resume_id"
+    t.index ["resume_id"], name: "index_applications_on_resume_id"
+    t.index ["user_id"], name: "index_applications_on_user_id"
   end
 
   create_table "interviews", force: :cascade do |t|
@@ -26,12 +30,16 @@ ActiveRecord::Schema.define(version: 20180410044211) do
     t.datetime "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "application_id"
+    t.index ["application_id"], name: "index_interviews_on_application_id"
   end
 
   create_table "resumes", force: :cascade do |t|
     t.string "filename"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_resumes_on_user_id"
   end
 
   create_table "skills", force: :cascade do |t|
@@ -39,6 +47,10 @@ ActiveRecord::Schema.define(version: 20180410044211) do
     t.string "experience"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.integer "application_id"
+    t.index ["application_id"], name: "index_skills_on_application_id"
+    t.index ["user_id"], name: "index_skills_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
