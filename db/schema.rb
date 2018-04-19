@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180411050042) do
+ActiveRecord::Schema.define(version: 20180420031215) do
 
   create_table "applications", force: :cascade do |t|
     t.string "company_name"
@@ -22,6 +22,12 @@ ActiveRecord::Schema.define(version: 20180411050042) do
     t.integer "resume_id"
     t.index ["resume_id"], name: "index_applications_on_resume_id"
     t.index ["user_id"], name: "index_applications_on_user_id"
+  end
+
+  create_table "applications_skills", id: false, force: :cascade do |t|
+    t.integer "skill_id", null: false
+    t.integer "application_id", null: false
+    t.index ["skill_id", "application_id"], name: "index_applications_skills_on_skill_id_and_application_id"
   end
 
   create_table "interviews", force: :cascade do |t|
@@ -39,6 +45,8 @@ ActiveRecord::Schema.define(version: 20180411050042) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "application_id"
+    t.index ["application_id"], name: "index_resumes_on_application_id"
     t.index ["user_id"], name: "index_resumes_on_user_id"
   end
 
@@ -47,10 +55,12 @@ ActiveRecord::Schema.define(version: 20180411050042) do
     t.string "experience"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
-    t.integer "application_id"
-    t.index ["application_id"], name: "index_skills_on_application_id"
-    t.index ["user_id"], name: "index_skills_on_user_id"
+  end
+
+  create_table "skills_users", id: false, force: :cascade do |t|
+    t.integer "skill_id", null: false
+    t.integer "user_id", null: false
+    t.index ["skill_id", "user_id"], name: "index_skills_users_on_skill_id_and_user_id"
   end
 
   create_table "users", force: :cascade do |t|
