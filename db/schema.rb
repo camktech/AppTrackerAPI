@@ -24,12 +24,6 @@ ActiveRecord::Schema.define(version: 20180515164030) do
     t.index ["user_id"], name: "index_applications_on_user_id"
   end
 
-  create_table "applications_skills", id: false, force: :cascade do |t|
-    t.integer "skill_id", null: false
-    t.integer "application_id", null: false
-    t.index ["skill_id", "application_id"], name: "index_applications_skills_on_skill_id_and_application_id"
-  end
-
   create_table "interviews", force: :cascade do |t|
     t.string "type"
     t.string "interviewer"
@@ -45,10 +39,8 @@ ActiveRecord::Schema.define(version: 20180515164030) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "application_id"
     t.index ["user_id"], name: "index_resumes_on_user_id"
-  end
-
-  create_table "resumes_applications", force: :cascade do |t|
   end
 
   create_table "skill_references", force: :cascade do |t|
@@ -62,16 +54,9 @@ ActiveRecord::Schema.define(version: 20180515164030) do
   end
 
   create_table "skills", force: :cascade do |t|
-    t.string "skill_name"
-    t.string "experience"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "skills_users", id: false, force: :cascade do |t|
-    t.integer "skill_id", null: false
-    t.integer "user_id", null: false
-    t.index ["skill_id", "user_id"], name: "index_skills_users_on_skill_id_and_user_id"
   end
 
   create_table "users", force: :cascade do |t|
