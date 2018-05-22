@@ -1,4 +1,4 @@
 class Skill < ApplicationRecord
-  # has_and_belongs_to_many :applications
-  has_many :skill_references
+  has_many :user_skills
+  has_many :application_skills
 end

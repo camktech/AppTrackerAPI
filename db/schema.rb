@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180515164030) do
+ActiveRecord::Schema.define(version: 20180521220121) do
+
+  create_table "application_skills", force: :cascade do |t|
+    t.integer "application_id"
+    t.integer "skill_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "experience"
+    t.index ["application_id"], name: "index_application_skills_on_application_id"
+    t.index ["skill_id"], name: "index_application_skills_on_skill_id"
+  end
 
   create_table "applications", force: :cascade do |t|
     t.string "company_name"
@@ -25,38 +35,39 @@ ActiveRecord::Schema.define(version: 20180515164030) do
   end
 
   create_table "interviews", force: :cascade do |t|
-    t.string "type"
+    t.string "interview_type"
     t.string "interviewer"
     t.datetime "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "application_id"
+    t.integer "user_id"
     t.index ["application_id"], name: "index_interviews_on_application_id"
+    t.index ["user_id"], name: "index_interviews_on_user_id"
   end
 
   create_table "resumes", force: :cascade do |t|
-    t.string "filename"
+    t.string "file_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
-    t.integer "application_id"
     t.index ["user_id"], name: "index_resumes_on_user_id"
-  end
-
-  create_table "skill_references", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "application_id"
-    t.integer "skill_id"
-    t.integer "experience"
-    t.index ["application_id"], name: "index_skill_references_on_application_id"
-    t.index ["skill_id"], name: "index_skill_references_on_skill_id"
-    t.index ["user_id"], name: "index_skill_references_on_user_id"
   end
 
   create_table "skills", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "user_skills", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "skill_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "experience"
+    t.index ["skill_id"], name: "index_user_skills_on_skill_id"
+    t.index ["user_id"], name: "index_user_skills_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

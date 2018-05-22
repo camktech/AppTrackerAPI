@@ -7,18 +7,53 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-User.create(first_name: 'cam', last_name: 'kilner', email: 'ck@gmail.com', password: 'change123')
+require 'database_cleaner'
 
-user = User.first
-resume_1 = user.resumes.create(file_name: 'ck.pdf')
-user.applications.create(company_name: 'example_company_name', position: 'web developer', resume:)
+DatabaseCleaner.clean_with(:truncation)
 
+def create_skills
+  skills = %w('javascript html css ruby ruby-on-rails python mysql sass nosql react.js')
+  skills.each{|s| Skill.create(name: s)}
+end
 
+def create_users
+  5.times do
+    first_name = Faker::Name.first_name
+    last_name = Faker::Name.last_name
+    user = User.create(first_name: first_name, last_name: last_name, email: Faker::Internet.email(first_name), password: '123')
+    user.resumes.create(file_name: "#{user.name}")
+    Skill.all.sample((3..Skill.all.length).to_a.sample).each do |skill|
+      user.skills.create(skill_id: skill.id)
+    end
+    create_user_applications(user)
+  end
+end
 
-ERROR
-2.4.1 :012 > Application.first.resume.create
-  Application Load (0.2ms)  SELECT  "applications".* FROM "applications" ORDER BY "applications"."id" ASC LIMIT ?  [["LIMIT", 1]]
-  Resume Load (0.2ms)  SELECT  "resumes".* FROM "resumes" WHERE "resumes"."application_id" = ? LIMIT ?  [["application_id", 1], ["LIMIT", 1]]
-NoMethodError: undefined method `create' for nil:NilClass
-  from (irb):12
-2.4.1 :013 > Application.first.resume
+def create_user_applications(user)
+  [3,4,5].sample.times do
+    application = user.applications.create(
+      company_name: Faker::Fallout.faction, 
+      position: "#{['sr. ', 'jr. ', ''].sample}web developer", 
+      date: Faker::Date.backward([1,2,3,4,5].sample)
+    )
+    application.resume = user.resumes.sample
+    application.save
+    Skill.all.sample((3..Skill.all.length).to_a.sample).each do |skill|
+      application.skills.create(skill_id: skill.id)
+    end
+
+  end
+end
+
+def create_interview(user, application)
+  Interview.create(
+    user_id: user.id, 
+    application_id: application.id, 
+    interview_type: Interview::InterviewTypes.constants.sample,
+    interviewer: Faker::Name.name,
+    date: application.date + 5.days
+  )
+end
+
+create_skills
+create_users

@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/stympy/faker.git
+  revision: 42428f4a3e5478380f399f5d53feeaee88657d00
+  branch: master
+  specs:
+    faker (1.8.7)
+      i18n (>= 0.7)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -43,13 +51,11 @@ GEM
     byebug (10.0.2)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
+    database_cleaner (1.7.0)
     diff-lcs (1.3)
     erubi (1.7.1)
-    factory_girl (4.9.0)
+    factory_bot (4.8.2)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
-      railties (>= 3.0.0)
     ffi (1.9.23)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
@@ -146,7 +152,9 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  factory_girl_rails
+  database_cleaner
+  factory_bot
+  faker!
   listen (>= 3.0.5, < 3.2)
   puma (~> 3.7)
   rails (~> 5.1.6)
