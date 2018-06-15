@@ -23,7 +23,7 @@ def create_users
     user = User.create(first_name: first_name, last_name: last_name, email: Faker::Internet.email(first_name), password: '123')
     user.resumes.create(file_name: "#{user.name}")
     Skill.all.sample((3..Skill.all.length).to_a.sample).each do |skill|
-      user.skills.create(skill_id: skill.id)
+      user.user_skills.create(skill_id: skill.id)
     end
     create_user_applications(user)
   end
@@ -39,7 +39,7 @@ def create_user_applications(user)
     application.resume = user.resumes.sample
     application.save
     Skill.all.sample((3..Skill.all.length).to_a.sample).each do |skill|
-      application.skills.create(skill_id: skill.id)
+      application.application_skills.create(skill_id: skill.id)
     end
 
   end
