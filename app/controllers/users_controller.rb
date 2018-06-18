@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_action :ensure_user_authenticated, only: :create
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
@@ -19,6 +20,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      @user.password = nil
+      session[:user_id] = @user.id
       render json: @user, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity

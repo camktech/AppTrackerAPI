@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   include Skillable
 
+  has_secure_password
+
 	has_many :applications
 	has_many :resumes
   has_many :interviews

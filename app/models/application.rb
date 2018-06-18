@@ -9,4 +9,8 @@ class Application < ApplicationRecord
 
   validates :company_name, :user_id, presence: true
 
+  def required_skills
+    self.application_skills.joins(:skill).select("application_skills.id, application_skills.skill_id, application_skills.experience, skills.name")
+  end
+
 end

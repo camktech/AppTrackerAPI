@@ -20,10 +20,10 @@ def create_users
   5.times do
     first_name = Faker::Name.first_name
     last_name = Faker::Name.last_name
-    user = User.create(first_name: first_name, last_name: last_name, email: Faker::Internet.email(first_name), password: '123')
-    user.resumes.create(file_name: "#{user.name}")
+    user = User.create(first_name: first_name, last_name: last_name, email: Faker::Internet.email(first_name), password: '123123123')
+    user.resumes.create(file_name: "#{user.first_name.capitalize}#{user.last_name.capitalize}.pdf")
     Skill.all.sample((3..Skill.all.length).to_a.sample).each do |skill|
-      user.user_skills.create(skill_id: skill.id)
+      user.user_skills.create(skill_id: skill.id, experience: (1..5).to_a.sample)
     end
     create_user_applications(user)
   end
@@ -39,7 +39,7 @@ def create_user_applications(user)
     application.resume = user.resumes.sample
     application.save
     Skill.all.sample((3..Skill.all.length).to_a.sample).each do |skill|
-      application.application_skills.create(skill_id: skill.id)
+      application.application_skills.create(skill_id: skill.id, experience: (1..5).to_a.sample)
     end
 
   end

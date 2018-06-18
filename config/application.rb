@@ -24,8 +24,12 @@ module AppTrackerAPI
         resource '*', :headers => :any, :methods => [:get, :post, :put, :delete, :options]
       end
     end
+    
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, :key => 'app_tracker_session_key'
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
+    config.autoload_paths += %W(#{config.root}/app/presenters)
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

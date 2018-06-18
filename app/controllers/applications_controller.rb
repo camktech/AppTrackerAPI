@@ -1,11 +1,17 @@
 class ApplicationsController < ApplicationController
+  require_relative '../presenters/application_presenter.rb'
   before_action :set_application, only: [:show, :update, :destroy]
 
   # GET /applications
   def index
-    @applications = Application.all
+    @applications = current_user.applications.includes(:application_skills, :skills, :resume)
+    apps = @applications.map{|app| ApplicationPresenter.new(app).present}
+    render json: apps
+  end
 
-    render json: @applications
+  def query
+    puts params[:query]
+    render json: {"message": "hi"}
   end
 
   # GET /applications/1
