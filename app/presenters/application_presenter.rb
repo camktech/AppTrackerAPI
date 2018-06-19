@@ -5,7 +5,7 @@ class ApplicationPresenter
     @application = @application.as_json.merge(
       {
         skills: @application.required_skills.as_json,
-        match_percent: 80,
+        match_percent: @application.skills_match,
         resume: @application.resume.as_json
       }
     )

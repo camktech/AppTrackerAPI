@@ -9,11 +9,6 @@ class ApplicationsController < ApplicationController
     render json: apps
   end
 
-  def query
-    puts params[:query]
-    render json: {"message": "hi"}
-  end
-
   # GET /applications/1
   def show
     render json: @application
@@ -52,6 +47,6 @@ class ApplicationsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def application_params
-      params.require(:application).permit(:company_name, :position, :date)
+      params.require(:application).permit(:company_name, :position, :date, application_skills_attributes: [:skill_id, :experience])
     end
 end

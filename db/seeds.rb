@@ -41,6 +41,7 @@ def create_user_applications(user)
     Skill.all.sample((3..Skill.all.length).to_a.sample).each do |skill|
       application.application_skills.create(skill_id: skill.id, experience: (1..5).to_a.sample)
     end
+    application.save
 
   end
 end

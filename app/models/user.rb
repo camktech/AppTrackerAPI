@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  include Skillable
 
   has_secure_password
 
